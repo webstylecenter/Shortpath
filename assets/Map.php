@@ -6,7 +6,33 @@
  * Time: 19:22
  */
 
+/*
+ * A
+ * $edge [
+ *  ['b', 5],
+ * ['c', 3]
+ * ]
+ */
+
 class Map
 {
+
+    protected $nodes = [];
+    protected $edges;
+
+    public function __construct()
+    {
+
+    }
+
+    public function addNode($name, $edges)
+    {
+
+        array_push($this->nodes, [
+            'name'=> $name,
+            'edges'=>$edges
+        ]);
+    }
+
 
 }
