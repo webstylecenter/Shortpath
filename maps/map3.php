@@ -9,7 +9,7 @@
 
 $map->addNode('A', [
     ['B', 1],
-    ['C', 2]
+    ['C', 1]
 ]);
 
 $map->addNode('B', [
@@ -18,7 +18,7 @@ $map->addNode('B', [
 ]);
 
 $map->addNode('C', [
-    ['A', 2],
+    ['A', 1],
     ['D', 1]
 ]);
 

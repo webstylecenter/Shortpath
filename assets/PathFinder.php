@@ -12,8 +12,8 @@ class Pathfinder
     protected $start;
     protected $end;
 
-    protected $alreadyFound = [];
-    protected $alreadyFoundPoints = [];
+    //protected $alreadyFound = [];
+    //protected $alreadyFoundPoints = [];
     protected $paths = [];
 
     public function __construct($map)
@@ -27,7 +27,7 @@ class Pathfinder
         $this->end = $end;
 
         // TODO Do some magic here
-        $this->findRecursive($start, [$start], 0, $end);
+        $this->findRecursive($start, [$start], 0, $end, [], []);
 
         $lowest = NULL;
         $lowestPath = [];
@@ -58,17 +58,16 @@ class Pathfinder
 
     }
 
-    private function findRecursive($node, $path, $points, $end)
+    private function findRecursive($node, $path, $points, $end, $alreadyFound, $alreadyFoundPoints)
     {
-        if (!in_array($node, $this->alreadyFound) || $this->alreadyFoundPoints[$node] < $points) {
-            array_push($this->alreadyFound, $node);
-            $this->alreadyFoundPoints[$node] = $points;
-
+        if (!in_array($node, $alreadyFound) || $alreadyFoundPoints[$node] < $points) {
+            array_push($alreadyFound, $node);
+            $alreadyFoundPoints[$node] = $points;
 
             $connectedNodes = $this->findConnectedNodes($node);
 
             for ($i=0; $i<count($connectedNodes); $i++) {
-                if (!in_array($connectedNodes[$i][0], $this->alreadyFound)) {
+                if (!in_array($connectedNodes[$i][0], $alreadyFound)) {
                     if ($connectedNodes[$i][0] === $end) {
                         echo 'Found! '.$connectedNodes[$i][0];
 
@@ -77,18 +76,16 @@ class Pathfinder
                             'points'=> $points+$connectedNodes[$i][1]
                         ]);
 
-                        return true;
+                        break;
+
                     } else {
-                        array_push($path, $connectedNodes[$i][0]);
-                        $this->findRecursive($connectedNodes[$i][0], $path, $points+$connectedNodes[$i][1], $end);
+                        $newPath = $path;
+                        array_push($newPath, $connectedNodes[$i][0]);
+                        $this->findRecursive($connectedNodes[$i][0], $newPath, $points+$connectedNodes[$i][1], $end, $alreadyFound, $alreadyFoundPoints);
                     }
                 }
-
             }
-        } else {
-            echo '<p>Skipped '.$node.'</p>';
         }
-
     }
 
     private function findConnectedNodes($node)
