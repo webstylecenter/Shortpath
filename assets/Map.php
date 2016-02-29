@@ -34,5 +34,10 @@ class Map
         ]);
     }
 
+    function getEdges($node)
+    {
+        $nodeKey = array_search($node, array_column($this->nodes, 'name'));
+        return $this->nodes[$nodeKey]['edges'];
+    }
 
 }
