@@ -9,8 +9,6 @@
 class Pathfinder
 {
     protected $map;
-    protected $start;
-    protected $end;
     protected $paths = [];
 
     public function __construct($map)
@@ -20,10 +18,6 @@ class Pathfinder
 
     public function findShortestPath($start, $end)
     {
-        $this->start = $start;
-        $this->end = $end;
-
-        // TODO Do some magic here
         $this->findRecursive($start, [$start], 0, $end);
 
         $lowest = NULL;
@@ -40,7 +34,6 @@ class Pathfinder
             }
         }
 
-
         echo '<pre>';
         print_r($this->paths);
         echo '</pre>';
@@ -48,9 +41,6 @@ class Pathfinder
         echo '<pre>';
         print_r($lowestPath);
         echo '</pre>';
-
-        return '';
-
     }
 
     private function findRecursive($node, $path, $points, $end, $alreadyFound = [], $alreadyFoundPoints = [])
@@ -70,8 +60,6 @@ class Pathfinder
                             'points'=> $points+$connectedNodes[$i][1]
                         ]);
 
-                        break;
-
                     } else {
                         $newPath = $path;
                         array_push($newPath, $connectedNodes[$i][0]);
@@ -86,11 +74,5 @@ class Pathfinder
     {
         $nodes = $this->map->getEdges($node);
         return $nodes;
-    }
-
-    private function nodeExists($nodeName)
-    {
-        // TODO: NodeExists maken
-        return true;
     }
 }
