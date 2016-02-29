@@ -11,9 +11,6 @@ class Pathfinder
     protected $map;
     protected $start;
     protected $end;
-
-    //protected $alreadyFound = [];
-    //protected $alreadyFoundPoints = [];
     protected $paths = [];
 
     public function __construct($map)
@@ -27,7 +24,7 @@ class Pathfinder
         $this->end = $end;
 
         // TODO Do some magic here
-        $this->findRecursive($start, [$start], 0, $end, [], []);
+        $this->findRecursive($start, [$start], 0, $end);
 
         $lowest = NULL;
         $lowestPath = [];
@@ -48,8 +45,6 @@ class Pathfinder
         print_r($this->paths);
         echo '</pre>';
 
-
-
         echo '<pre>';
         print_r($lowestPath);
         echo '</pre>';
@@ -58,7 +53,7 @@ class Pathfinder
 
     }
 
-    private function findRecursive($node, $path, $points, $end, $alreadyFound, $alreadyFoundPoints)
+    private function findRecursive($node, $path, $points, $end, $alreadyFound = [], $alreadyFoundPoints = [])
     {
         if (!in_array($node, $alreadyFound) || $alreadyFoundPoints[$node] < $points) {
             array_push($alreadyFound, $node);
@@ -69,7 +64,6 @@ class Pathfinder
             for ($i=0; $i<count($connectedNodes); $i++) {
                 if (!in_array($connectedNodes[$i][0], $alreadyFound)) {
                     if ($connectedNodes[$i][0] === $end) {
-                        echo 'Found! '.$connectedNodes[$i][0];
 
                         array_push($this->paths, [
                            'route' => $path,
